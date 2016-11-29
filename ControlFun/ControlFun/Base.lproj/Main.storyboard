@@ -34,6 +34,7 @@
                             </label>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Type in a name" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="23i-BU-AnI">
                                 <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="words" keyboardAppearance="alert" returnKeyType="done"/>
                                 <connections>
                                     <action selector="textEndEditAction:" destination="BYZ-38-t0r" eventType="editingDidEndOnExit" id="dE1-jq-Kxa"/>
@@ -46,7 +47,9 @@
                                     <action selector="textEndEditAction:" destination="BYZ-38-t0r" eventType="editingDidEndOnExit" id="CTg-e2-6ou"/>
                                 </connections>
                             </textField>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ApressLogo" translatesAutoresizingMaskIntoConstraints="NO" id="FNC-pq-1HJ"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ApressLogo" translatesAutoresizingMaskIntoConstraints="NO" id="FNC-pq-1HJ">
+                                <color key="backgroundColor" red="0.99607843137254903" green="0.76470588235294112" blue="0.039215686274509803" alpha="1" colorSpace="calibratedRGB"/>
+                            </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YgE-U4-yZo">
                                 <constraints>
                                     <constraint firstAttribute="width" constant="42" id="EfL-cS-OfK"/>
@@ -82,11 +85,15 @@
                                     <action selector="switchChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="ImV-vS-JU7"/>
                                 </connections>
                             </switch>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1jP-f9-Mb3">
-                                <state key="normal" title="Do Something"/>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1jP-f9-Mb3">
+                                <state key="normal" title="Do Something" backgroundImage="whiteButton"/>
+                                <state key="highlighted" backgroundImage="blueButton"/>
+                                <connections>
+                                    <action selector="buttonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="5Nv-Rr-IV0"/>
+                                </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.99607843139999996" green="0.76470588240000004" blue="0.039215686270000001" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="pkj-Pj-P2Q" secondAttribute="trailing" id="8Yj-xs-Ow6"/>
                             <constraint firstItem="YgE-U4-yZo" firstAttribute="top" secondItem="aMu-S3-raN" secondAttribute="bottom" constant="30" id="A1P-yQ-1yc"/>
@@ -110,7 +117,6 @@
                             <constraint firstItem="1jP-f9-Mb3" firstAttribute="leading" secondItem="gYf-V2-ZZY" secondAttribute="leading" id="gpw-TN-aTI"/>
                             <constraint firstAttribute="leadingMargin" secondItem="gYf-V2-ZZY" secondAttribute="leading" id="hlY-D0-q9C"/>
                             <constraint firstItem="23i-BU-AnI" firstAttribute="leading" secondItem="D28-j8-Bbb" secondAttribute="trailing" constant="22" id="n5o-o5-ekA"/>
-                            <constraint firstAttribute="leadingMargin" secondItem="1jP-f9-Mb3" secondAttribute="leading" id="neA-QP-JvE"/>
                             <constraint firstItem="23i-BU-AnI" firstAttribute="top" secondItem="FNC-pq-1HJ" secondAttribute="bottom" constant="31" id="nsh-fx-tro"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="ZZj-Uo-fgw" secondAttribute="bottom" constant="280" id="sMs-vk-dzP"/>
                             <constraint firstItem="aMu-S3-raN" firstAttribute="centerY" secondItem="ZZj-Uo-fgw" secondAttribute="centerY" id="scI-IG-MWN"/>
@@ -121,6 +127,7 @@
                         </connections>
                     </view>
                     <connections>
+                        <outlet property="doSomethingButton" destination="1jP-f9-Mb3" id="7VV-k6-TES"/>
                         <outlet property="leftSwitch" destination="gYf-V2-ZZY" id="7Rh-ac-qny"/>
                         <outlet property="nameFiled" destination="23i-BU-AnI" id="abZ-Qy-mQX"/>
                         <outlet property="numberFiled" destination="ZZj-Uo-fgw" id="8Om-t1-HeM"/>
@@ -135,6 +142,8 @@
     </scenes>
     <resources>
         <image name="ApressLogo" width="172" height="80"/>
+        <image name="blueButton" width="29" height="37"/>
+        <image name="whiteButton" width="29" height="38"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

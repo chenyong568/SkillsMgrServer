@@ -20,6 +20,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *sliderLabel;
 @property (weak, nonatomic) IBOutlet UISwitch *leftSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *rightSwitch;
+@property (weak, nonatomic) IBOutlet UIButton *doSomethingButton;
 @end
 
 @implementation ViewController
@@ -78,6 +79,36 @@
     [_rightSwitch setOn:setting];
 }
 - (IBAction)toggleControls:(UISegmentedControl *)sender {
+    if (sender.selectedSegmentIndex == 0) {
+        _doSomethingButton.hidden = YES;
+        _leftSwitch.hidden = NO;
+        _rightSwitch.hidden = NO;
+    } else {
+        _doSomethingButton.hidden = NO;
+        _leftSwitch.hidden = YES;
+        _rightSwitch.hidden = YES;
+    }
+}
+- (IBAction)buttonPressed:(id)sender {
+    UIButton* btn = (UIButton*)sender;
+    UIAlertController* AlertController = [UIAlertController alertControllerWithTitle:@"Are you sure?" message:@"三思" preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction* yesAction = [UIAlertAction actionWithTitle:@"Yes,I'm sure!" style:UIAlertActionStyleDestructive handler:^(UIAlertAction* action){
+        NSString* msg;
+        if ([_nameFiled.text length] > 0) {
+            msg = [NSString stringWithFormat:@"You can breathe easy,%@,evertthing went OK.",_nameFiled.text];
+        } else {
+            msg =@"You can breathe easy,evertthing went OK.";
+        }
+        UIAlertController* AlertController2 = [UIAlertController alertControllerWithTitle:@"Something was done" message:msg preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction*cancelAction = [UIAlertAction actionWithTitle:@"Phew!" style:UIAlertActionStyleCancel handler:nil];
+        [AlertController2  addAction:cancelAction];
+        [self presentViewController:AlertController2 animated:YES completion:nil];
+    }];
+    
+    UIAlertAction* noAction = [UIAlertAction actionWithTitle:@"No way" style:UIAlertActionStyleCancel handler:nil];
+    [AlertController addAction:yesAction];
+    [AlertController addAction:noAction];
+    [self presentViewController:AlertController animated:YES completion:nil];
 }
 
 - (IBAction)startVoipCall:(id)sender {
