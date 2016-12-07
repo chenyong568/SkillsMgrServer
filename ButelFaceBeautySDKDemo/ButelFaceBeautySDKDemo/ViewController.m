@@ -34,7 +34,8 @@
         MyNavigationController* navigationController = [[MyNavigationController alloc] initWithRootViewController:faceBeautyView];
         UIWindow *window = [[[UIApplication sharedApplication] delegate] window];
         navigationController.navigationBarHidden = YES;
-        [window.rootViewController presentViewController:navigationController animated:YES completion:nil];
+        //[window.rootViewController presentViewController:navigationController animated:YES completion:nil];
+        [self.navigationController pushViewController:faceBeautyView animated:YES];
     });
 }
 

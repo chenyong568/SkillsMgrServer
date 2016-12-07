@@ -40,9 +40,6 @@
                                 <constraint firstAttribute="height" constant="30" id="WWb-XN-Bgd"/>
                                 <constraint firstAttribute="width" constant="114" id="d9P-82-F7F"/>
                             </constraints>
-                            <connections>
-                                <action selector="colorAction:" destination="-1" eventType="valueChanged" id="JYR-rb-ZKH"/>
-                            </connections>
                         </slider>
                         <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="20" translatesAutoresizingMaskIntoConstraints="NO" id="U4u-OH-wD5">
                             <rect key="frame" x="128.5" y="510" width="118" height="31"/>
@@ -50,9 +47,6 @@
                                 <constraint firstAttribute="width" constant="114" id="7ch-dE-Ufm"/>
                                 <constraint firstAttribute="height" constant="30" id="g3Z-0V-U1c"/>
                             </constraints>
-                            <connections>
-                                <action selector="whiteAction:" destination="-1" eventType="valueChanged" id="LMe-3a-Xb3"/>
-                            </connections>
                         </slider>
                         <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="100" minValue="50" maxValue="150" translatesAutoresizingMaskIntoConstraints="NO" id="Qgz-va-p5c">
                             <rect key="frame" x="128.5" y="562" width="118" height="31"/>
@@ -60,9 +54,6 @@
                                 <constraint firstAttribute="width" constant="114" id="XaD-0R-Mdz"/>
                                 <constraint firstAttribute="height" constant="30" id="kVw-W9-1b0"/>
                             </constraints>
-                            <connections>
-                                <action selector="filterAction:" destination="-1" eventType="valueChanged" id="fOM-uv-yhz"/>
-                            </connections>
                         </slider>
                         <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="5" translatesAutoresizingMaskIntoConstraints="NO" id="Ted-Ai-3It">
                             <rect key="frame" x="128.5" y="612" width="118" height="31"/>
@@ -70,9 +61,6 @@
                                 <constraint firstAttribute="width" constant="114" id="GTs-1H-rL4"/>
                                 <constraint firstAttribute="height" constant="30" id="u43-fV-C1C"/>
                             </constraints>
-                            <connections>
-                                <action selector="skinAction:" destination="-1" eventType="valueChanged" id="hdH-al-3EY"/>
-                            </connections>
                         </slider>
                         <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1Nb-RC-1ka">
                             <rect key="frame" x="291" y="41" width="51" height="31"/>

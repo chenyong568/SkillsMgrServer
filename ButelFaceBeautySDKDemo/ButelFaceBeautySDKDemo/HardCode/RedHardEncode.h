@@ -10,7 +10,7 @@
 
 @protocol RedHardEncodeDelegate<NSObject>
 @required
-//-()
+-(void)getParameters:(NSData*)sps pps:(NSData*)pps;
 -(void)getEncodeData:(NSData*)data;
 -(void)getDeccodeData:(NSData*)data;
 @end

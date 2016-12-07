@@ -7,7 +7,7 @@
 //
 #import <UIKit/UIKit.h>
 #import "OpenGLView20.h"
-#import "chatgame_facebeauty.h"
+#import "RedHardEncode.h"
 #import <AVFoundation/AVFoundation.h>
 #import "FaceBeautyViewController.h"
 #import <AssetsLibrary/AssetsLibrary.h>
@@ -45,8 +45,6 @@ int I420ToNV12(uint8_t* y_src, int y_len)
     int  nWhite;
     BOOL isBeauty;
     int mDeviceOrientation;
-    CG_BOOL faceBeautyBool;
-    CGBEAUTY_HANDLER* faceBeautyHandle;
     
     CALayer *customPreviewLayer;
     
@@ -56,6 +54,7 @@ int I420ToNV12(uint8_t* y_src, int y_len)
     NSFileHandle* fileHandle;
     AVCaptureConnection* connection;
     dispatch_queue_t queue;
+    RedHardEncode* hardcode;
 }
 @property (weak, nonatomic) IBOutlet UILabel *frameLabel;
 @property (weak, nonatomic) IBOutlet UIView *baseViewController;
@@ -143,8 +142,8 @@ int I420ToNV12(uint8_t* y_src, int y_len)
     [NSDictionary dictionaryWithObject:val forKey:key];
     _captureVideoDataOutput.videoSettings = videoSettings;
     
-    dispatch_queue_t queue = dispatch_queue_create("myQueue", NULL);
-    [_captureVideoDataOutput setSampleBufferDelegate:self queue:queue];
+    dispatch_queue_t myQueue = dispatch_queue_create("myQueue", NULL);
+    [_captureVideoDataOutput setSampleBufferDelegate:self queue:myQueue];
     
     //将设备输入添加到会话中
     if ([_captureSession canAddInput:_captureDeviceInput]) {
@@ -158,10 +157,10 @@ int I420ToNV12(uint8_t* y_src, int y_len)
     
     //设置采集帧率
     connection = [_captureVideoDataOutput connectionWithMediaType:AVMediaTypeVideo];
-//    if ([connections count] > 0) {
-//        [[connections objectAtIndex:0] setVideoMinFrameDuration:CMTimeMake(1, 25)];
-//        [[connections objectAtIndex:0] setVideoMaxFrameDuration:CMTimeMake(1, 25)];
-//    }
+    if (captureDevice) {
+        [captureDevice setActiveVideoMinFrameDuration:CMTimeMake(1, 25)];
+        [captureDevice setActiveVideoMaxFrameDuration:CMTimeMake(1, 25)];
+    }
 
     //创建视频预览层，用于实时展示摄像头状态
     _captureVideoPreviewLayer = [AVCaptureVideoPreviewLayer    layerWithSession:self.captureSession];
@@ -176,6 +175,15 @@ int I420ToNV12(uint8_t* y_src, int y_len)
     //注册通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateLabel:) name:UPDATE_FRAME_LABEL object:nil];
     _frameLabel.text = @"low";
+    
+    UIBarButtonItem* btn = [[UIBarButtonItem alloc] initWithTitle:@"退出" style:UIBarButtonItemStyleDone target:self action:@selector(stopCamera:)];
+    self.navigationItem.leftBarButtonItem = btn;
+    
+    [self initLocalMembers];
+    [self setVideoPreviewLayerOritation];
+    hardcode = [[RedHardEncode alloc] init];
+    [hardcode initHardCode:480 height:640];
+    hardcode.delegate = self;
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -193,6 +201,14 @@ int I420ToNV12(uint8_t* y_src, int y_len)
 -(void)dealloc{
 }
 
+-(IBAction)stopCamera:(id)sender
+{
+    [self.captureSession stopRunning];
+    if (hardcode) {
+        [hardcode unInitHardCode];
+    }
+    [self.navigationController popViewControllerAnimated:YES];
+}
 - (void)updateLabel:(NSNotification *)notification
 {
     int pos = [notification.object integerValue];
@@ -205,45 +221,30 @@ int I420ToNV12(uint8_t* y_src, int y_len)
 
 #pragma mark - UI方法
 #pragma mark 拍照
-- (IBAction)whiteAction:(id)sender {
-    float f = _whiteSlider.value; //读取滑块的值
-    nWhite = (int)f;
-    NSLog(@"white : %d",nWhite);
-    chatgame_set_beauty_param(faceBeautyHandle,nWhite,nColor);
-}
-- (IBAction)colorAction:(id)sender {
-    float f = _colorSlider.value; //读取滑块的值
-    nColor = (int)f;
-    NSLog(@"nColor : %d",nColor);
-    chatgame_set_beauty_param(faceBeautyHandle,nWhite,nColor);
-}
-
-- (IBAction)filterAction:(id)sender {
-    float f = _filterSlider.value; //读取滑块的值
-    int nFilter = (int)f;
-    NSLog(@"nFilter : %d",nFilter);
-    chatgame_set_beauty_mode_strength(faceBeautyHandle,nFilter);
-}
-
-- (IBAction)skinAction:(id)sender {
-    float f = _skinSlider.value; //读取滑块的值
-    int nSkin = (int)f;
-    NSLog(@"nSkin : %d",nSkin);
-    chatgame_set_beauty_strength(faceBeautyHandle,nSkin);
-}
 
 - (IBAction)isBeautyFace:(id)sender {
     UISwitch *switchButton = (UISwitch*)sender;
     BOOL isButtonOn = [switchButton isOn];
     isBeauty = isButtonOn;
 }
+
 - (IBAction)switchCamera:(id)sender {
+    UISwitch* slider = (UISwitch*)sender;
+    BOOL isOn = slider.isOn;
+//    if (<#condition#>) {
+//        <#statements#>
+//    }
 }
 
 
 //在该代理方法中，我们可以获取视频帧、处理视频帧、显示视频帧(在第七步中创建的layer中显示)了。
 -(void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection
 {
+    if (hardcode) {
+        [hardcode pushEncodeData:sampleBuffer];
+        return;
+    }
+    
     //在该代理方法中，sampleBuffer是一个Core Media对象，可以引入Core Video供使用。
     CVImageBufferRef imageBuffer =  CMSampleBufferGetImageBuffer(sampleBuffer);
     
@@ -341,6 +342,38 @@ int I420ToNV12(uint8_t* y_src, int y_len)
 }
 
 
+#pragma mark - delegate
+-(void)getParameters:(NSData*)sps pps:(NSData*)pps
+{
+    NSLog(@"gotSpsPps %d %d", (int)[sps length], (int)[pps length]);
+    const char bytes[] = "\x00\x00\x00\x01";
+    size_t length = (sizeof bytes) - 1; //string literals have implicit trailing '\0'
+    NSData *ByteHeader = [NSData dataWithBytes:bytes length:length];
+    [fileHandle writeData:ByteHeader];
+    [fileHandle writeData:sps];
+    [fileHandle writeData:ByteHeader];
+    [fileHandle writeData:pps];
+    
+}
+
+-(void)getEncodeData:(NSData*)data
+{
+    NSLog(@"gotEncodedData %d", (int)[data length]);
+    if (fileHandle != NULL)
+    {
+        const char bytes[] = "\x00\x00\x00\x01";
+        size_t length = (sizeof bytes) - 1; //string literals have implicit trailing '\0'
+        NSData *ByteHeader = [NSData dataWithBytes:bytes length:length];
+        [fileHandle writeData:ByteHeader];
+        [fileHandle writeData:data];
+    }
+}
+
+-(void)getDeccodeData:(NSData*)data
+{
+    
+}
+
 
 #pragma mark - 私有方法
 -(void)initLocalMembers
@@ -356,10 +389,7 @@ int I420ToNV12(uint8_t* y_src, int y_len)
     // Open the file using POSIX as this is anyway a test application
     //fd = open([h264File UTF8String], O_RDWR);
     fileHandle = [NSFileHandle fileHandleForUpdatingAtPath:h264File];
-    
-    
-    
-    
+    NSLog(@"创建文件test.h264");
 }
 
 -(AVCaptureDevice *)getCameraDeviceWithPosition:(AVCaptureDevicePosition )position{
@@ -398,7 +428,8 @@ int I420ToNV12(uint8_t* y_src, int y_len)
     }
     AVCaptureConnection* connection2 = [_captureVideoPreviewLayer connection];
     connection2.videoOrientation = connection.videoOrientation;
-    _captureVideoPreviewLayer.frame=CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+    _captureVideoPreviewLayer.frame = self.view.bounds;
+    //_captureVideoPreviewLayer.frame=CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
 }
 
 //视图旋转方向发生改变时会自动调用
@@ -411,17 +442,17 @@ int I420ToNV12(uint8_t* y_src, int y_len)
 }
 
 
-//-(BOOL)shouldAutorotate
-//{
-//    return YES;
-//    
-//}
-//
-//
-//-(UIInterfaceOrientationMask)supportedInterfaceOrientations{
-//    return UIInterfaceOrientationMaskLandscapeRight;
-//    //return self.orietation;
-//}
+-(BOOL)shouldAutorotate
+{
+    return NO;
+    
+}
+
+
+-(UIInterfaceOrientationMask)supportedInterfaceOrientations{
+    return UIInterfaceOrientationMaskPortrait;
+    //return self.orietation;
+}
 //
 //
 ////横屏挂断电话的时候  出现preferredInterfaceOrientationForPresentation must return a supported interface orientation崩溃  必须实现该方法

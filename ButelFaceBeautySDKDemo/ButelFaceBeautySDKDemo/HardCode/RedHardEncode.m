@@ -11,10 +11,16 @@
 @interface RedHardEncode()
 {
     int frameCount;
+    NSString* sps;
+    NSString* pps;
     NSString* error;
+    //编码
     dispatch_queue_t queue;
-    VTCompressionSessionRef EncodingSession;
-    VTDecompressionSessionRef DeccodingSession;
+    VTCompressionSessionRef encoderSession;
+    
+    //解码
+    VTDecompressionSessionRef deocderSession;
+    CMVideoFormatDescriptionRef decoderFormatDescription;
 }
 @end
 
@@ -25,7 +31,7 @@
     queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_sync(queue, ^{
         //初始化编码的session
-        OSStatus status = VTCompressionSessionCreate(NULL, width, height, kCMVideoCodecType_H264, NULL, NULL, NULL, didCompressH264, (__bridge void *)(self),  &EncodingSession);
+        OSStatus status = VTCompressionSessionCreate(NULL, width, height, kCMVideoCodecType_H264, NULL, NULL, NULL, didCompressH264, (__bridge void *)(self),  &encoderSession);
         NSLog(@"H264: VTCompressionSessionCreate %d", (int)status);
         
         if (status != 0)
@@ -38,18 +44,18 @@
         }
         
         // Set the properties
-        VTSessionSetProperty(EncodingSession, kVTCompressionPropertyKey_RealTime, kCFBooleanTrue);
-        VTSessionSetProperty(EncodingSession, kVTCompressionPropertyKey_ProfileLevel, kVTProfileLevel_H264_Main_AutoLevel);
+        VTSessionSetProperty(encoderSession, kVTCompressionPropertyKey_RealTime, kCFBooleanTrue);
+        VTSessionSetProperty(encoderSession, kVTCompressionPropertyKey_ProfileLevel, kVTProfileLevel_H264_Main_AutoLevel);
         
         // 开始编码
-        VTCompressionSessionPrepareToEncodeFrames(EncodingSession);
+        VTCompressionSessionPrepareToEncodeFrames(encoderSession);
         
         //初始化解码的session
-        OSStatus status = VTDecompressionSessionCreate(kCFAllocatorDefault,
-                                                       decoderFormatDescription,
-                                                       NULL, attrs,
-                                                       &callBackRecord,
-                                                       &deocderSession);
+//        OSStatus status = VTDecompressionSessionCreate(kCFAllocatorDefault,
+//                                                       decoderFormatDescription,
+//                                                       NULL, attrs,
+//                                                       &callBackRecord,
+//                                                       &deocderSession);
     });
 }
 
@@ -67,7 +73,7 @@
         VTEncodeInfoFlags flags;
         
         //添加数据  编码
-        OSStatus statusCode = VTCompressionSessionEncodeFrame(EncodingSession,
+        OSStatus statusCode = VTCompressionSessionEncodeFrame(encoderSession,
                                                               imageBuffer,
                                                               presentationTimeStamp,
                                                               kCMTimeInvalid,
@@ -82,12 +88,17 @@
 
 }
 
+-(void)pushDeccodeData
+{
+    
+}
+
 -(void)unInitHardCode
 {
     //销毁编码会话
-    VTCompressionSessionInvalidate(EncodingSession);
-    CFRelease(EncodingSession);
-    EncodingSession = NULL;
+    VTCompressionSessionInvalidate(encoderSession);
+    CFRelease(encoderSession);
+    encoderSession = NULL;
     error = NULL;
 }
 
@@ -99,7 +110,77 @@ void didCompressH264(void * outputCallbackRefCon,
                      VTEncodeInfoFlags infoFlags,
                      CMSampleBufferRef sampleBuffer)
 {
+    NSLog(@"didCompressH264 called with status %d infoFlags %d", (int)status, (int)infoFlags);
+    if (status != 0) return;
     
+    if (!CMSampleBufferDataIsReady(sampleBuffer))
+    {
+        NSLog(@"didCompressH264 data is not ready ");
+        return;
+    }
+    RedHardEncode* encoder = (__bridge RedHardEncode*)outputCallbackRefCon;
+    
+    // Check if we have got a key frame first
+    bool keyframe = !CFDictionaryContainsKey( (CFArrayGetValueAtIndex(CMSampleBufferGetSampleAttachmentsArray(sampleBuffer, true), 0)), kCMSampleAttachmentKey_NotSync);
+    
+    if (keyframe)
+    {
+        CMFormatDescriptionRef format = CMSampleBufferGetFormatDescription(sampleBuffer);
+        // CFDictionaryRef extensionDict = CMFormatDescriptionGetExtensions(format);
+        // Get the extensions
+        // From the extensions get the dictionary with key "SampleDescriptionExtensionAtoms"
+        // From the dict, get the value for the key "avcC"
+        
+        size_t sparameterSetSize, sparameterSetCount;
+        const uint8_t *sparameterSet;
+        OSStatus statusCode = CMVideoFormatDescriptionGetH264ParameterSetAtIndex(format, 0, &sparameterSet, &sparameterSetSize, &sparameterSetCount, 0 );
+        if (statusCode == noErr)
+        {
+            // Found sps and now check for pps
+            size_t pparameterSetSize, pparameterSetCount;
+            const uint8_t *pparameterSet;
+            OSStatus statusCode = CMVideoFormatDescriptionGetH264ParameterSetAtIndex(format, 1, &pparameterSet, &pparameterSetSize, &pparameterSetCount, 0 );
+            if (statusCode == noErr)
+            {
+                // Found pps
+                encoder->sps = [NSData dataWithBytes:sparameterSet length:sparameterSetSize];
+                encoder->pps = [NSData dataWithBytes:pparameterSet length:pparameterSetSize];
+                if (encoder->_delegate)
+                {
+                    [encoder->_delegate getParameters:encoder->sps pps:encoder->pps];
+                }
+            }
+        }
+    }
+    
+    //获取CMSampleBuffer中的CMBloackBuffer
+    CMBlockBufferRef dataBuffer = CMSampleBufferGetDataBuffer(sampleBuffer);
+    size_t length, totalLength;
+    char *dataPointer;
+    OSStatus statusCodeRet = CMBlockBufferGetDataPointer(dataBuffer, 0, &length, &totalLength, &dataPointer);
+    if (statusCodeRet == noErr) {
+        
+        size_t bufferOffset = 0;
+        static const int AVCCHeaderLength = 4;
+        //帧分片
+        while (bufferOffset < totalLength - AVCCHeaderLength) {
+            
+            // Read the NAL unit length
+            uint32_t NALUnitLength = 0;
+            memcpy(&NALUnitLength, dataPointer + bufferOffset, AVCCHeaderLength);
+            
+            // Convert the length value from Big-endian to Little-endian
+            NALUnitLength = CFSwapInt32BigToHost(NALUnitLength);
+            
+            NSData* data = [[NSData alloc] initWithBytes:(dataPointer + bufferOffset + AVCCHeaderLength) length:NALUnitLength];
+            [encoder->_delegate getEncodeData:data];
+            
+            // Move to the next NAL unit in the block buffer
+            bufferOffset += AVCCHeaderLength + NALUnitLength;
+        }
+        
+    }
+
 }
 #pragma mark 私有方法(解码)
 @end
