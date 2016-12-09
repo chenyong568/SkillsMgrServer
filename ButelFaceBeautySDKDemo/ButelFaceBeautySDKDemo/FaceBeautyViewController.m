@@ -7,7 +7,8 @@
 //
 #import <UIKit/UIKit.h>
 #import "OpenGLView20.h"
-#import "RedHardEncode.h"
+#import "RedHardCode.h"
+#import "AAPLEAGLLayer.h"
 #import <AVFoundation/AVFoundation.h>
 #import "FaceBeautyViewController.h"
 #import <AssetsLibrary/AssetsLibrary.h>
@@ -50,11 +51,12 @@ int I420ToNV12(uint8_t* y_src, int y_len)
     
     //test for hardcode
     NSString* h264File;
-    
+    int frameRate;
     NSFileHandle* fileHandle;
     AVCaptureConnection* connection;
     dispatch_queue_t queue;
-    RedHardEncode* hardcode;
+    RedHardCode* hardcode;
+    AAPLEAGLLayer *_glLayer;
 }
 @property (weak, nonatomic) IBOutlet UILabel *frameLabel;
 @property (weak, nonatomic) IBOutlet UIView *baseViewController;
@@ -66,6 +68,7 @@ int I420ToNV12(uint8_t* y_src, int y_len)
 
 @property (nonatomic , strong) OpenGLView20* opengl;
 
+@property (strong,nonatomic) AVCaptureDevice *captureDevice; //视频输入设备
 @property (strong,nonatomic) AVCaptureSession *captureSession;//负责输入和输出设备之间的数据传递
 @property (strong,nonatomic) AVCaptureDeviceInput *captureDeviceInput;//负责从AVCaptureDevice获得输入数据
 @property (strong,nonatomic) AVCaptureStillImageOutput *captureStillImageOutput;//照片输出流
@@ -88,6 +91,7 @@ int I420ToNV12(uint8_t* y_src, int y_len)
     isBeauty = YES;
     nColor = 0;
     nWhite = 0;
+    frameRate = 15;
     mDeviceOrientation =0;
     _frameLabel.text = @"hai";
     // Do any additional setup after loading the view from its nib.
@@ -108,8 +112,8 @@ int I420ToNV12(uint8_t* y_src, int y_len)
         _captureSession.sessionPreset=AVCaptureSessionPreset640x480;
     }
     //获得一个视频输入设备
-    AVCaptureDevice *captureDevice=[self getCameraDeviceWithPosition:AVCaptureDevicePositionFront];//取得后置摄像头
-    if (!captureDevice) {
+    _captureDevice=[self getCameraDeviceWithPosition:AVCaptureDevicePositionFront];//取得后置摄像头
+    if (!_captureDevice) {
         NSLog(@"取得后置摄像头时出现问题.");
         return;
     }
@@ -119,7 +123,7 @@ int I420ToNV12(uint8_t* y_src, int y_len)
     
     NSError *error=nil;
     //根据输入设备初始化设备输入对象，用于获得输入数据
-    _captureDeviceInput=[[AVCaptureDeviceInput alloc]initWithDevice:captureDevice error:&error];
+    _captureDeviceInput=[[AVCaptureDeviceInput alloc]initWithDevice:_captureDevice error:&error];
     if (error) {
         NSLog(@"取得设备输入对象时出错，错误原因：%@",error.localizedDescription);
         return;
@@ -157,19 +161,26 @@ int I420ToNV12(uint8_t* y_src, int y_len)
     
     //设置采集帧率
     connection = [_captureVideoDataOutput connectionWithMediaType:AVMediaTypeVideo];
-    if (captureDevice) {
-        [captureDevice setActiveVideoMinFrameDuration:CMTimeMake(1, 25)];
-        [captureDevice setActiveVideoMaxFrameDuration:CMTimeMake(1, 25)];
+    if (_captureDevice) {
+        [_captureDevice lockForConfiguration:nil];
+        [_captureDevice setActiveVideoMinFrameDuration:CMTimeMake(1, 15)];
+        [_captureDevice setActiveVideoMaxFrameDuration:CMTimeMake(1, 15)];
+        [_captureDevice unlockForConfiguration];
     }
-
+    //创建一个解码数据显示层
+    _glLayer = [[AAPLEAGLLayer alloc] initWithFrame:CGRectMake(self.view.bounds.size.width/2, 0, self.view.bounds.size.width/2, self.view.bounds.size.height)];
+    _glLayer.backgroundColor = [UIColor whiteColor].CGColor;
+    [self.view.layer addSublayer:_glLayer];
+    
     //创建视频预览层，用于实时展示摄像头状态
     _captureVideoPreviewLayer = [AVCaptureVideoPreviewLayer    layerWithSession:self.captureSession];
     [_captureVideoPreviewLayer setVideoGravity:AVLayerVideoGravityResizeAspect];
     
-    _captureVideoPreviewLayer.frame = self.view.bounds;
+    CGRect previewFrame = CGRectMake(self.view.bounds.origin.x, self.view.bounds.origin.y, self.view.bounds.size.width/2, self.view.bounds.size.height);
+    _captureVideoPreviewLayer.frame = previewFrame;
     [self.view.layer addSublayer:_captureVideoPreviewLayer];
     
-    _baseViewController.hidden = YES;
+    _baseViewController.hidden = NO;
     [self.view addSubview:_baseViewController];
     
     //注册通知
@@ -181,8 +192,8 @@ int I420ToNV12(uint8_t* y_src, int y_len)
     
     [self initLocalMembers];
     [self setVideoPreviewLayerOritation];
-    hardcode = [[RedHardEncode alloc] init];
-    [hardcode initHardCode:480 height:640];
+    hardcode = [[RedHardCode alloc] init];
+    //[hardcode initCoder:480 height:640];
     hardcode.delegate = self;
 }
 
@@ -205,8 +216,10 @@ int I420ToNV12(uint8_t* y_src, int y_len)
 {
     [self.captureSession stopRunning];
     if (hardcode) {
-        [hardcode unInitHardCode];
+        [hardcode unInitCoder];
     }
+    [_glLayer removeFromSuperlayer];
+    [_captureVideoPreviewLayer removeFromSuperlayer];
     [self.navigationController popViewControllerAnimated:YES];
 }
 - (void)updateLabel:(NSNotification *)notification
@@ -220,6 +233,37 @@ int I420ToNV12(uint8_t* y_src, int y_len)
 }
 
 #pragma mark - UI方法
+- (IBAction)frameRateChanged:(id)sender {
+    UISlider* slider = (UISlider*)sender;
+    if (slider.value <= 1.5) {
+        frameRate = 10;
+        slider.value = 1;
+    } else if(slider.value <=2.5){
+        frameRate = 15;
+        slider.value = 2;
+    }else{
+        frameRate = 25;
+        slider.value = 3;
+    }
+    
+    NSError *error;
+    CMTime frameDuration = CMTimeMake(1, frameRate);
+    NSArray *supportedFrameRateRanges = [_captureDevice.activeFormat videoSupportedFrameRateRanges];
+    BOOL frameRateSupported = NO;
+    for (AVFrameRateRange *range in supportedFrameRateRanges) {
+        if (CMTIME_COMPARE_INLINE(frameDuration, >=, range.minFrameDuration) &&
+            CMTIME_COMPARE_INLINE(frameDuration, <=, range.maxFrameDuration)) {
+            frameRateSupported = YES;
+        }
+    }
+    
+    if (frameRateSupported && [_captureDevice lockForConfiguration:&error]) {
+        [_captureDevice setActiveVideoMaxFrameDuration:frameDuration];
+        [_captureDevice setActiveVideoMinFrameDuration:frameDuration];
+        _frameLabel.text = [NSString stringWithFormat:@"%d",frameRate];
+        [_captureDevice unlockForConfiguration];
+    }
+}
 #pragma mark 拍照
 
 - (IBAction)isBeautyFace:(id)sender {
@@ -240,13 +284,25 @@ int I420ToNV12(uint8_t* y_src, int y_len)
 //在该代理方法中，我们可以获取视频帧、处理视频帧、显示视频帧(在第七步中创建的layer中显示)了。
 -(void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection
 {
+    //在该代理方法中，sampleBuffer是一个Core Media对象，可以引入Core Video供使用。
+    CVImageBufferRef imageBuffer =  CMSampleBufferGetImageBuffer(sampleBuffer);
+    
+    //锁住缓冲区基地址
+    if(CVPixelBufferLockBaseAddress(imageBuffer, 0) == kCVReturnSuccess)
+    {
+        size_t width = CVPixelBufferGetWidth(imageBuffer);
+        size_t height = CVPixelBufferGetHeight(imageBuffer);
+        NSLog(@"Encode frame width:%d   height:%d",width,height);
+        CVPixelBufferUnlockBaseAddress(imageBuffer, 0);
+    }
+    
     if (hardcode) {
         [hardcode pushEncodeData:sampleBuffer];
         return;
     }
     
     //在该代理方法中，sampleBuffer是一个Core Media对象，可以引入Core Video供使用。
-    CVImageBufferRef imageBuffer =  CMSampleBufferGetImageBuffer(sampleBuffer);
+    //CVImageBufferRef imageBuffer =  CMSampleBufferGetImageBuffer(sampleBuffer);
     
     //锁住缓冲区基地址
     if(CVPixelBufferLockBaseAddress(imageBuffer, 0) == kCVReturnSuccess)
@@ -343,35 +399,71 @@ int I420ToNV12(uint8_t* y_src, int y_len)
 
 
 #pragma mark - delegate
--(void)getParameters:(NSData*)sps pps:(NSData*)pps
+-(void)getParameters:(NSData*)sps spsSize:(NSUInteger)spsSize pps:(NSData*)pps ppsSize:(NSUInteger)ppsSize;
 {
     NSLog(@"gotSpsPps %d %d", (int)[sps length], (int)[pps length]);
     const char bytes[] = "\x00\x00\x00\x01";
     size_t length = (sizeof bytes) - 1; //string literals have implicit trailing '\0'
     NSData *ByteHeader = [NSData dataWithBytes:bytes length:length];
-    [fileHandle writeData:ByteHeader];
-    [fileHandle writeData:sps];
-    [fileHandle writeData:ByteHeader];
-    [fileHandle writeData:pps];
+//    [fileHandle writeData:ByteHeader];
+//    [fileHandle writeData:sps];
+//    [fileHandle writeData:ByteHeader];
+//    [fileHandle writeData:pps];
+
+    //发sps
+    NSMutableData *h264Data = [[NSMutableData alloc] init];
+    [h264Data appendData:ByteHeader];
+    [h264Data appendData:sps];
+    [hardcode pushDeccodeData:h264Data dataLen:h264Data.length];
+    //发pps
+    [h264Data resetBytesInRange:NSMakeRange(0, [h264Data length])];
+    [h264Data setLength:0];
+    [h264Data appendData:ByteHeader];
+    [h264Data appendData:pps];
     
+    [hardcode pushDeccodeData:h264Data dataLen:h264Data.length];
 }
 
--(void)getEncodeData:(NSData*)data
+-(void)getEncodedData:(NSData*)data dataLen:(NSUInteger)dataLen
 {
     NSLog(@"gotEncodedData %d", (int)[data length]);
-    if (fileHandle != NULL)
-    {
-        const char bytes[] = "\x00\x00\x00\x01";
-        size_t length = (sizeof bytes) - 1; //string literals have implicit trailing '\0'
-        NSData *ByteHeader = [NSData dataWithBytes:bytes length:length];
-        [fileHandle writeData:ByteHeader];
-        [fileHandle writeData:data];
-    }
+//    if (fileHandle != NULL)
+//    {
+//        const char bytes[] = "\x00\x00\x00\x01";
+//        size_t length = (sizeof bytes) - 1; //string literals have implicit trailing '\0'
+//        NSData *ByteHeader = [NSData dataWithBytes:bytes length:length];
+//        [fileHandle writeData:ByteHeader];
+//        [fileHandle writeData:data];
+//    }
+    const char bytes[] = "\x00\x00\x00\x01";
+    size_t length = (sizeof bytes) - 1;
+    NSData *ByteHeader = [NSData dataWithBytes:bytes length:length];
+    NSMutableData *h264Data = [[NSMutableData alloc] init];
+    [h264Data appendData:ByteHeader];
+    [h264Data appendData:data];
+    
+    
+    
+    [hardcode pushDeccodeData:h264Data dataLen:h264Data.length];
 }
 
--(void)getDeccodeData:(NSData*)data
+- (void)getDecodedData:(CVImageBufferRef )imageBuffer
 {
-    
+    if(imageBuffer)
+    {
+        //锁住缓冲区基地址
+        if(CVPixelBufferLockBaseAddress(imageBuffer, 0) == kCVReturnSuccess)
+        {
+            //然后提取一些有用的图片信息：
+            size_t width = CVPixelBufferGetWidth(imageBuffer);
+            size_t height = CVPixelBufferGetHeight(imageBuffer);
+            NSLog(@"Deccode frame width:%d   height:%d",width,height);
+        }
+        CVPixelBufferUnlockBaseAddress(imageBuffer, 0);
+        
+        _glLayer.pixelBuffer = imageBuffer;
+        CVPixelBufferRelease(imageBuffer);
+    }
 }
 
 
@@ -428,7 +520,7 @@ int I420ToNV12(uint8_t* y_src, int y_len)
     }
     AVCaptureConnection* connection2 = [_captureVideoPreviewLayer connection];
     connection2.videoOrientation = connection.videoOrientation;
-    _captureVideoPreviewLayer.frame = self.view.bounds;
+    //_captureVideoPreviewLayer.frame = self.view.bounds;
     //_captureVideoPreviewLayer.frame=CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
 }
 

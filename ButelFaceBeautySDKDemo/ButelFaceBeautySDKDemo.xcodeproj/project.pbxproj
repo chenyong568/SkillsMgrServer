@@ -8,7 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		9A0366F01D23D07900592E39 /* MyNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A0366EF1D23D07900592E39 /* MyNavigationController.m */; };
-		9A5E9ED71DF69BD000812EC1 /* RedHardEncode.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A5E9ED61DF69BD000812EC1 /* RedHardEncode.m */; };
+		9A5E9ED71DF69BD000812EC1 /* RedHardCode.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A5E9ED61DF69BD000812EC1 /* RedHardCode.m */; };
+		9A938ABB1DF95D5D00062F8C /* AAPLEAGLLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A938ABA1DF95D5D00062F8C /* AAPLEAGLLayer.m */; };
 		9AB980831D1B995F00396CC0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB980821D1B995F00396CC0 /* main.m */; };
 		9AB980861D1B995F00396CC0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB980851D1B995F00396CC0 /* AppDelegate.m */; };
 		9AB980891D1B995F00396CC0 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB980881D1B995F00396CC0 /* ViewController.m */; };
@@ -25,8 +26,10 @@
 /* Begin PBXFileReference section */
 		9A0366EE1D23D07900592E39 /* MyNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyNavigationController.h; sourceTree = "<group>"; };
 		9A0366EF1D23D07900592E39 /* MyNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyNavigationController.m; sourceTree = "<group>"; };
-		9A5E9ED51DF69BD000812EC1 /* RedHardEncode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RedHardEncode.h; path = HardCode/RedHardEncode.h; sourceTree = "<group>"; };
-		9A5E9ED61DF69BD000812EC1 /* RedHardEncode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RedHardEncode.m; path = HardCode/RedHardEncode.m; sourceTree = "<group>"; };
+		9A5E9ED51DF69BD000812EC1 /* RedHardCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RedHardCode.h; path = HardCode/RedHardCode.h; sourceTree = "<group>"; };
+		9A5E9ED61DF69BD000812EC1 /* RedHardCode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RedHardCode.m; path = HardCode/RedHardCode.m; sourceTree = "<group>"; };
+		9A938AB91DF95D5D00062F8C /* AAPLEAGLLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AAPLEAGLLayer.h; path = HardCode/AAPLEAGLLayer.h; sourceTree = "<group>"; };
+		9A938ABA1DF95D5D00062F8C /* AAPLEAGLLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AAPLEAGLLayer.m; path = HardCode/AAPLEAGLLayer.m; sourceTree = "<group>"; };
 		9AB9807E1D1B995F00396CC0 /* ButelFaceBeautySDKDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ButelFaceBeautySDKDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AB980821D1B995F00396CC0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		9AB980841D1B995F00396CC0 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -85,8 +88,10 @@
 				9AB980981D1BB62F00396CC0 /* ViewController.xib */,
 				9ADBE0071D214BB500465DB8 /* OpenGLView20.h */,
 				9ADBE0081D214BB500465DB8 /* OpenGLView20.m */,
-				9A5E9ED51DF69BD000812EC1 /* RedHardEncode.h */,
-				9A5E9ED61DF69BD000812EC1 /* RedHardEncode.m */,
+				9A5E9ED51DF69BD000812EC1 /* RedHardCode.h */,
+				9A5E9ED61DF69BD000812EC1 /* RedHardCode.m */,
+				9A938AB91DF95D5D00062F8C /* AAPLEAGLLayer.h */,
+				9A938ABA1DF95D5D00062F8C /* AAPLEAGLLayer.m */,
 				9AB9809A1D1BBB0B00396CC0 /* FaceBeautyViewController.h */,
 				9AB9809B1D1BBB0B00396CC0 /* FaceBeautyViewController.m */,
 				9AB9809C1D1BBB0B00396CC0 /* FaceBeautyViewController.xib */,
@@ -199,11 +204,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				9AB980891D1B995F00396CC0 /* ViewController.m in Sources */,
-				9A5E9ED71DF69BD000812EC1 /* RedHardEncode.m in Sources */,
+				9A5E9ED71DF69BD000812EC1 /* RedHardCode.m in Sources */,
 				9AB9809D1D1BBB0B00396CC0 /* FaceBeautyViewController.m in Sources */,
 				9AB980861D1B995F00396CC0 /* AppDelegate.m in Sources */,
 				9A0366F01D23D07900592E39 /* MyNavigationController.m in Sources */,
 				9AB980831D1B995F00396CC0 /* main.m in Sources */,
+				9A938ABB1DF95D5D00062F8C /* AAPLEAGLLayer.m in Sources */,
 				9ADBE0091D214BB500465DB8 /* OpenGLView20.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
