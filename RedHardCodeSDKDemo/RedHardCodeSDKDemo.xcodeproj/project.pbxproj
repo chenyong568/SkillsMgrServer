@@ -1,0 +1,363 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		9AC5189E1DFE9516002E2C49 /* AAPLEAGLLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AC518991DFE9516002E2C49 /* AAPLEAGLLayer.m */; };
+		9AC5189F1DFE9516002E2C49 /* RedHardCode.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AC5189B1DFE9516002E2C49 /* RedHardCode.m */; };
+		9AC518A01DFE9516002E2C49 /* RedHardEncodeSession+Properties.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AC5189D1DFE9516002E2C49 /* RedHardEncodeSession+Properties.m */; };
+		9AC518AF1DFE9559002E2C49 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AC518A21DFE9559002E2C49 /* AppDelegate.m */; };
+		9AC518B01DFE9559002E2C49 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9AC518A31DFE9559002E2C49 /* Info.plist */; };
+		9AC518B11DFE9559002E2C49 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AC518A41DFE9559002E2C49 /* main.m */; };
+		9AC518B21DFE9559002E2C49 /* MyNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AC518A61DFE9559002E2C49 /* MyNavigationController.m */; };
+		9AC518B41DFE9559002E2C49 /* VideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AC518AA1DFE9559002E2C49 /* VideoViewController.m */; };
+		9AC518B51DFE9559002E2C49 /* VideoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9AC518AB1DFE9559002E2C49 /* VideoViewController.xib */; };
+		9AC518B61DFE9559002E2C49 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AC518AD1DFE9559002E2C49 /* ViewController.m */; };
+		9AC518B71DFE9559002E2C49 /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9AC518AE1DFE9559002E2C49 /* ViewController.xib */; };
+		9AC518B91DFE956C002E2C49 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AC518B81DFE956C002E2C49 /* Assets.xcassets */; };
+		9AC518BB1DFE95D5002E2C49 /* switch_camera@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9AC518BA1DFE95D5002E2C49 /* switch_camera@2x.png */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		9AB9807E1D1B995F00396CC0 /* RedHardCodeSDKDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RedHardCodeSDKDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9AC518981DFE9516002E2C49 /* AAPLEAGLLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AAPLEAGLLayer.h; path = RedHardCodeSDKDemo/RedHardCode/AAPLEAGLLayer.h; sourceTree = SOURCE_ROOT; };
+		9AC518991DFE9516002E2C49 /* AAPLEAGLLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AAPLEAGLLayer.m; path = RedHardCodeSDKDemo/RedHardCode/AAPLEAGLLayer.m; sourceTree = SOURCE_ROOT; };
+		9AC5189A1DFE9516002E2C49 /* RedHardCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RedHardCode.h; path = RedHardCodeSDKDemo/RedHardCode/RedHardCode.h; sourceTree = SOURCE_ROOT; };
+		9AC5189B1DFE9516002E2C49 /* RedHardCode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RedHardCode.m; path = RedHardCodeSDKDemo/RedHardCode/RedHardCode.m; sourceTree = SOURCE_ROOT; };
+		9AC5189C1DFE9516002E2C49 /* RedHardEncodeSession+Properties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "RedHardEncodeSession+Properties.h"; path = "RedHardCodeSDKDemo/RedHardCode/RedHardEncodeSession+Properties.h"; sourceTree = SOURCE_ROOT; };
+		9AC5189D1DFE9516002E2C49 /* RedHardEncodeSession+Properties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "RedHardEncodeSession+Properties.m"; path = "RedHardCodeSDKDemo/RedHardCode/RedHardEncodeSession+Properties.m"; sourceTree = SOURCE_ROOT; };
+		9AC518A11DFE9559002E2C49 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = RedHardCodeSDKDemo/AppDelegate.h; sourceTree = SOURCE_ROOT; };
+		9AC518A21DFE9559002E2C49 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = RedHardCodeSDKDemo/AppDelegate.m; sourceTree = SOURCE_ROOT; };
+		9AC518A31DFE9559002E2C49 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = RedHardCodeSDKDemo/Info.plist; sourceTree = SOURCE_ROOT; };
+		9AC518A41DFE9559002E2C49 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = RedHardCodeSDKDemo/main.m; sourceTree = SOURCE_ROOT; };
+		9AC518A51DFE9559002E2C49 /* MyNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyNavigationController.h; path = RedHardCodeSDKDemo/MyNavigationController.h; sourceTree = SOURCE_ROOT; };
+		9AC518A61DFE9559002E2C49 /* MyNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyNavigationController.m; path = RedHardCodeSDKDemo/MyNavigationController.m; sourceTree = SOURCE_ROOT; };
+		9AC518A91DFE9559002E2C49 /* VideoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VideoViewController.h; path = RedHardCodeSDKDemo/VideoViewController.h; sourceTree = SOURCE_ROOT; };
+		9AC518AA1DFE9559002E2C49 /* VideoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VideoViewController.m; path = RedHardCodeSDKDemo/VideoViewController.m; sourceTree = SOURCE_ROOT; };
+		9AC518AB1DFE9559002E2C49 /* VideoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = VideoViewController.xib; path = RedHardCodeSDKDemo/VideoViewController.xib; sourceTree = SOURCE_ROOT; };
+		9AC518AC1DFE9559002E2C49 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewController.h; path = RedHardCodeSDKDemo/ViewController.h; sourceTree = SOURCE_ROOT; };
+		9AC518AD1DFE9559002E2C49 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ViewController.m; path = RedHardCodeSDKDemo/ViewController.m; sourceTree = SOURCE_ROOT; };
+		9AC518AE1DFE9559002E2C49 /* ViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ViewController.xib; path = RedHardCodeSDKDemo/ViewController.xib; sourceTree = SOURCE_ROOT; };
+		9AC518B81DFE956C002E2C49 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = RedHardCodeSDKDemo/Assets.xcassets; sourceTree = SOURCE_ROOT; };
+		9AC518BA1DFE95D5002E2C49 /* switch_camera@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "switch_camera@2x.png"; path = "RedHardCodeSDKDemo/resource/switch_camera@2x.png"; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		9AB9807B1D1B995F00396CC0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		9AB980751D1B995F00396CC0 = {
+			isa = PBXGroup;
+			children = (
+				9AC518971DFE916F002E2C49 /* RedHardCodeSDK */,
+				9AB980801D1B995F00396CC0 /* RedHardCodeSDKDemo */,
+				9AB9807F1D1B995F00396CC0 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		9AB9807F1D1B995F00396CC0 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9AB9807E1D1B995F00396CC0 /* RedHardCodeSDKDemo.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9AB980801D1B995F00396CC0 /* RedHardCodeSDKDemo */ = {
+			isa = PBXGroup;
+			children = (
+				9AC518A11DFE9559002E2C49 /* AppDelegate.h */,
+				9AC518A21DFE9559002E2C49 /* AppDelegate.m */,
+				9AC518A51DFE9559002E2C49 /* MyNavigationController.h */,
+				9AC518A61DFE9559002E2C49 /* MyNavigationController.m */,
+				9AC518A91DFE9559002E2C49 /* VideoViewController.h */,
+				9AC518AA1DFE9559002E2C49 /* VideoViewController.m */,
+				9AC518AB1DFE9559002E2C49 /* VideoViewController.xib */,
+				9AC518AC1DFE9559002E2C49 /* ViewController.h */,
+				9AC518AD1DFE9559002E2C49 /* ViewController.m */,
+				9AC518AE1DFE9559002E2C49 /* ViewController.xib */,
+				9AC518981DFE9516002E2C49 /* AAPLEAGLLayer.h */,
+				9AC518991DFE9516002E2C49 /* AAPLEAGLLayer.m */,
+				9AC518B81DFE956C002E2C49 /* Assets.xcassets */,
+				9ADBE00A1D226D2B00465DB8 /* resource */,
+				9AB980811D1B995F00396CC0 /* Supporting Files */,
+			);
+			path = RedHardCodeSDKDemo;
+			sourceTree = "<group>";
+		};
+		9AB980811D1B995F00396CC0 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				9AC518A31DFE9559002E2C49 /* Info.plist */,
+				9AC518A41DFE9559002E2C49 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		9AC518971DFE916F002E2C49 /* RedHardCodeSDK */ = {
+			isa = PBXGroup;
+			children = (
+				9AC5189A1DFE9516002E2C49 /* RedHardCode.h */,
+				9AC5189B1DFE9516002E2C49 /* RedHardCode.m */,
+				9AC5189C1DFE9516002E2C49 /* RedHardEncodeSession+Properties.h */,
+				9AC5189D1DFE9516002E2C49 /* RedHardEncodeSession+Properties.m */,
+			);
+			name = RedHardCodeSDK;
+			path = RedHardCodeSDKDemo;
+			sourceTree = "<group>";
+		};
+		9ADBE00A1D226D2B00465DB8 /* resource */ = {
+			isa = PBXGroup;
+			children = (
+				9AC518BA1DFE95D5002E2C49 /* switch_camera@2x.png */,
+			);
+			name = resource;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		9AB9807D1D1B995F00396CC0 /* RedHardCodeSDKDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9AB980951D1B995F00396CC0 /* Build configuration list for PBXNativeTarget "RedHardCodeSDKDemo" */;
+			buildPhases = (
+				9AB9807A1D1B995F00396CC0 /* Sources */,
+				9AB9807B1D1B995F00396CC0 /* Frameworks */,
+				9AB9807C1D1B995F00396CC0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RedHardCodeSDKDemo;
+			productName = RedHardCodeSDKDemo;
+			productReference = 9AB9807E1D1B995F00396CC0 /* RedHardCodeSDKDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		9AB980761D1B995F00396CC0 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0730;
+				ORGANIZATIONNAME = Butel;
+				TargetAttributes = {
+					9AB9807D1D1B995F00396CC0 = {
+						CreatedOnToolsVersion = 7.3;
+						DevelopmentTeam = 86JGT83XF7;
+					};
+				};
+			};
+			buildConfigurationList = 9AB980791D1B995F00396CC0 /* Build configuration list for PBXProject "RedHardCodeSDKDemo" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 9AB980751D1B995F00396CC0;
+			productRefGroup = 9AB9807F1D1B995F00396CC0 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				9AB9807D1D1B995F00396CC0 /* RedHardCodeSDKDemo */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		9AB9807C1D1B995F00396CC0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9AC518B01DFE9559002E2C49 /* Info.plist in Resources */,
+				9AC518BB1DFE95D5002E2C49 /* switch_camera@2x.png in Resources */,
+				9AC518B51DFE9559002E2C49 /* VideoViewController.xib in Resources */,
+				9AC518B91DFE956C002E2C49 /* Assets.xcassets in Resources */,
+				9AC518B71DFE9559002E2C49 /* ViewController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		9AB9807A1D1B995F00396CC0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9AC518A01DFE9516002E2C49 /* RedHardEncodeSession+Properties.m in Sources */,
+				9AC518B21DFE9559002E2C49 /* MyNavigationController.m in Sources */,
+				9AC518B41DFE9559002E2C49 /* VideoViewController.m in Sources */,
+				9AC518B61DFE9559002E2C49 /* ViewController.m in Sources */,
+				9AC5189E1DFE9516002E2C49 /* AAPLEAGLLayer.m in Sources */,
+				9AC5189F1DFE9516002E2C49 /* RedHardCode.m in Sources */,
+				9AC518B11DFE9559002E2C49 /* main.m in Sources */,
+				9AC518AF1DFE9559002E2C49 /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		9AB980931D1B995F00396CC0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		9AB980941D1B995F00396CC0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		9AB980961D1B995F00396CC0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer: 勇勇 陈 (QX97DJC227)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: 勇勇 陈 (QX97DJC227)";
+				DEVELOPMENT_TEAM = 86JGT83XF7;
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/RedHardCodeSDKDemo/SDK/include";
+				INFOPLIST_FILE = RedHardCodeSDKDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/RedHardCodeSDKDemo/SDK/lib",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.channelsoft.RedHardCodeSDKDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "fa3630fb-f5e9-4a10-aafc-fb6b72e20667";
+				PROVISIONING_PROFILE_SPECIFIER = "IOS Team Dev :com_channelsoft_common";
+			};
+			name = Debug;
+		};
+		9AB980971D1B995F00396CC0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 86JGT83XF7;
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/RedHardCodeSDKDemo/SDK/include";
+				INFOPLIST_FILE = RedHardCodeSDKDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/RedHardCodeSDKDemo/SDK/lib",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.channelsoft.RedHardCodeSDKDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "fa3630fb-f5e9-4a10-aafc-fb6b72e20667";
+				PROVISIONING_PROFILE_SPECIFIER = "IOS Team Dev :com_channelsoft_common";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		9AB980791D1B995F00396CC0 /* Build configuration list for PBXProject "RedHardCodeSDKDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9AB980931D1B995F00396CC0 /* Debug */,
+				9AB980941D1B995F00396CC0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9AB980951D1B995F00396CC0 /* Build configuration list for PBXNativeTarget "RedHardCodeSDKDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9AB980961D1B995F00396CC0 /* Debug */,
+				9AB980971D1B995F00396CC0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 9AB980761D1B995F00396CC0 /* Project object */;
+}
